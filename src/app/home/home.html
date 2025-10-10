@@ -1,0 +1,15 @@
+<div class="toys">
+@for (toy of toys(); track $index) {
+    <div class="card" style="width: 18rem;">
+  <img [src]="getImage(toy.imageUrl)" class="card-img-top" [alt]="toy.permalink">
+  <div class="card-body">
+    <h5 class="card-title">{{toy.name}}</h5>
+    <p class="card-text">{{toy.description}}</p>
+    <div class="btn-group">
+      <button type="button" class="btn btn-success">Dodaj u korpu</button>
+      <a class="btn btn-primary" routerLink="/details/${toy}">Vise</a>
+    </div>
+  </div>
+</div>
+}
+</div>

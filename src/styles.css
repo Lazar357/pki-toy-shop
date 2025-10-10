@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #80B9AD;    
+  --secondary-color: #BBDED6;  
+  --accent-color: #C5E1D9;     
+  --background-color: #E3F1EE; 
+  --text-color: #2E5266; 
+  --hover-success-color: green;   
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+  background-color: var(--primary-color) !important;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: var(--text-color) !important;
+  font-weight: 600;
+}
+
+.navbar .nav-link:hover {
+  color: var(--secondary-color) !important;
+}
+
+
