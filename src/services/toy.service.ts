@@ -13,11 +13,11 @@ const client = axios.create({
 export class ToyService {
 
     static async getAllToys() {
-        return await client.get<ToyModel[]>('/toy/')
+        return await client.get<ToyModel[]>(`/toy/`)
     }
 
     static async getToyById(id: number) {
-        return await client.get<ToyModel>('/toy/${id}')
+        return await client.get<ToyModel>(`/toy/${id}`)
     }
 
     static async getToysByIds(ids: number[]) {
@@ -26,5 +26,9 @@ export class ToyService {
             method: 'post',
             data: ids
         })
+    }
+
+    static async getToyByPermalink(permalink: string){
+        return await client.get<any>(`/toy/permalink/${permalink}`)
     }
 }

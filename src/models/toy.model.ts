@@ -1,5 +1,4 @@
 export interface ToyModel {
-
     toyId: number,
     name: string,
     permalink: string,
@@ -18,5 +17,4 @@ export interface ToyModel {
         name: string,
         description: string
     }
-
 }

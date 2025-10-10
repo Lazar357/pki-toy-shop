@@ -1,0 +1,20 @@
+@if (toy()) {
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-8">
+                <img [src]="getImage(toy()!.imageUrl)" class="img-fluid rounded-start" [alt]="toy()!.permalink">
+            </div>
+            <div class="col-md-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{toy()!.name}}</h5>
+                    <p class="card-text">{{toy()!.description}}</p>
+                    <p class="card-text">{{toy()!.type.name}}</p>
+                    <p class="card-text">{{toy()!.type.description}}</p>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+} @else {
+    <p>nzm</p>
+}
