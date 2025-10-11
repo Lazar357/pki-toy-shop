@@ -1,0 +1,43 @@
+.toys {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+.btn-success {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+.btn-success:hover {
+    background-color: var(--hover-success-color);
+    border-color: var(--hover-success-color);
+    color: black;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: black;
+}
+
+.card {
+    border: none;
+    background-color: var(--accent-color);
+    border-radius: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 18rem;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}

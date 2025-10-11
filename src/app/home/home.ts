@@ -9,16 +9,6 @@ import { RouterLink } from "@angular/router"
   styleUrl: './home.css'
 })
 export class Home {
-  protected toys = signal<ToyModel[]>([])
-
-  public getImage(url: string) {
-    return `https://toy.pequla.com${url}`
-  }
-
-  constructor() {
-    ToyService.getAllToys()
-      .then(rsp => this.toys.set(rsp.data))
-      console.log(this.toys())
-  }
+  
 
 }

@@ -1,0 +1,47 @@
+<div class="card login">
+    <div class="card-header">
+        <h5>Signup</h5>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+            <div class="mb-3">
+                <label for="name" class="form-label">Ime</label>
+                <input type="text" class="form-control" id="name" formControlName="firstName">
+            </div>
+            <div class="mb-3">
+                <label for="surname" class="form-label">Prezime</label>
+                <input type="text" class="form-control" id="surname" formControlName="lastName">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email adresa</label>
+                <input type="email" class="form-control" id="email" formControlName="email">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Mobilni telefon</label>
+                <input type="tel" class="form-control" id="phone" formControlName="phone">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Lozinka</label>
+                <input type="password" class="form-control" id="password" formControlName="password">
+            </div>
+            <div class="mb-3">
+                <label for="repeat" class="form-label">Ponovite lozinku</label>
+                <input type="password" class="form-control" id="repeat" formControlName="repeatPassword">
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">Izaberite omiljen tip igracke</label>
+                <select class="form-select" id="type" formControlName="favoriteToyType">
+                    @for (type of uniqueTypes(); track $index) {
+                    <option [value]="type">{{type}}</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Submit
+                </button>
+                <a routerLink="/login" class="btn btn-link">I already have an account</a>
+            </div>
+        </form>
+    </div>
+</div>

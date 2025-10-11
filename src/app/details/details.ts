@@ -2,10 +2,11 @@ import { Component, signal } from '@angular/core';
 import { ToyModel } from '../../models/toy.model';
 import { ActivatedRoute } from '@angular/router';
 import { ToyService } from '../../services/toy.service';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-details',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './details.html',
   styleUrl: './details.css'
 })
@@ -14,15 +15,15 @@ export class Details {
   protected other = signal<ToyModel[]>([])
 
   constructor(private route: ActivatedRoute) {
-    this.route.params.subscribe((params: any)=> {
+    this.route.params.subscribe((params: any) => {
       ToyService.getToyById(params.toyId)
         .then(rsp => {
           console.log(rsp.data)
           this.toy.set(rsp.data)
           ToyService.getToyByPermalink(rsp.data.permalink)
-          .then(rsp=>{
-            this.other.set(rsp.data.content)
-          })
+            .then(rsp => {
+              this.other.set(rsp.data.content)
+            })
         })
     })
   }
