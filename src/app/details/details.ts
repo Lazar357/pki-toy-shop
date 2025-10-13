@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { ToyModel } from '../../models/toy.model';
 import { ActivatedRoute } from '@angular/router';
 import { ToyService } from '../../services/toy.service';
-import { RouterLink } from "@angular/router";
+import { Utils } from '../utils';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-details',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './details.html',
   styleUrl: './details.css'
 })
@@ -14,7 +15,8 @@ export class Details {
   protected toy = signal<ToyModel | null>(null)
   protected other = signal<ToyModel[]>([])
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, protected utils: Utils) {
+    this.utils.showLoading()
     this.route.params.subscribe((params: any) => {
       ToyService.getToyById(params.toyId)
         .then(rsp => {
@@ -26,9 +28,8 @@ export class Details {
             })
         })
     })
+    Swal.close()
   }
 
-  public getImage(url: string) {
-    return `https://toy.pequla.com${url}`
-  }
+  
 }

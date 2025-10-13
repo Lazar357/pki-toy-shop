@@ -1,13 +1,14 @@
 import { Component, computed, signal, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ToyModel } from '../../models/toy.model';
 import { ToyService } from '../../services/toy.service';
 
+
 @Component({
   selector: 'app-signup',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './signup.html',
   styleUrl: './signup.css'
 })
@@ -18,7 +19,7 @@ export class Signup {
 
   constructor(private formBuilder: FormBuilder, protected router: Router) {
     ToyService.getAllToys()
-    .then(rsp=> this.toys.set(rsp.data))
+      .then(rsp => this.toys.set(rsp.data))
 
 
     this.form = this.formBuilder.group({
@@ -35,12 +36,12 @@ export class Signup {
 
   onSubmit() {
     if (!this.form.valid) {
-      alert('Invalid form data!')
+      alert('Forma nije dobro popunjena!')
       return
     }
 
     if (this.form.value.password !== this.form.value.repeatPassword) {
-      alert(`Passwords don't match!`)
+      alert(`Lozinke nisu iste!`)
       return
     }
 
@@ -51,7 +52,7 @@ export class Signup {
       this.router.navigateByUrl('/login')
     } catch (e) {
       console.error(e)
-      alert('Data missing!')
+      alert('Fale podaci!')
     }
   }
 

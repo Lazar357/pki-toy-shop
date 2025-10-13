@@ -1,23 +1,46 @@
 @if (toy()) {
-<div class="card mb-3" style="max-width: 540px;">
-    <div class="row g-0">
-        <div class="col-md-8">
-            <img [src]="getImage(toy()!.imageUrl)" class="img-fluid rounded-start" [alt]="toy()!.permalink">
+<div class="card mb-3 mx-auto" style="max-width: 1200px;">
+    <div class="row g-0 align-items-start">
+        <div class="col-md-6">
+            <img [src]="utils.getImage(toy()!.imageUrl)" class="img-fluid rounded-start" [alt]="toy()!.permalink"
+                style="width: 100%; height: 100%; object-fit: cover; min-height: 400px;">
         </div>
-        <div class="col-md-4">
-            <div class="card-body">
-                <h5 class="card-title">{{toy()!.name}}</h5>
-                <p class="card-text">{{toy()!.description}}</p>
-                <p class="card-text">Vrsta igracke: {{toy()!.type.name}}</p>
-                <p class="card-text">{{toy()!.type.description}}</p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                <div class="btn-group">
-                    <a class="btn btn-sm" routerLink="/">Rezervisi</a>
+        <div class="col-md-6">
+            <div class="card-body p-4">
+                <h2 class="card-title fw-bold mb-3">{{toy()!.name}}</h2>
+
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Opis</th>
+                            <td>{{toy()!.description}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Kategorija</th>
+                            <td>{{toy()!.type.name}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Opis kategorije</th>
+                            <td>{{toy()!.type.description}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Pol</th>
+                            <td>{{toy()!.targetGroup}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Uzrast</th>
+                            <td>{{toy()!.ageGroup.name}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p class="mt-5">{{toy()!.price}} RSD</p>
+                <div class="btn-group mt-3">
+                    <button type="button" class="btn btn-success">Dodaj u korpu</button>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-} @else {
-<p>nzm</p>
 }

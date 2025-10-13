@@ -35,6 +35,7 @@
     "fortawesome": "^0.0.1-security",
     "prettier": "^3.6.2",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.26.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
-<div class="card login">
+<div class="card login mx-auto" style="width: 800px">
     <div class="card-header">
-        <h5>Signup</h5>
+        <h5>Registracija</h5>
     </div>
     <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
@@ -36,11 +36,14 @@
                     }
                 </select>
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Submit
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Napravi profil
                 </button>
-                <a routerLink="/login" class="btn btn-link">I already have an account</a>
+                <p class="text-muted mt-3 mb-0">
+                    Vec imate profil?
+                    <a routerLink="/login" class="link-primary">Prijavite se.</a>
+                </p>
             </div>
         </form>
     </div>

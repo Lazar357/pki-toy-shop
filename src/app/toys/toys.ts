@@ -2,6 +2,8 @@ import { Component, signal } from '@angular/core';
 import { ToyModel } from '../../models/toy.model';
 import { ToyService } from '../../services/toy.service';
 import { RouterLink } from '@angular/router';
+import { Utils } from '../utils';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-toys',
@@ -12,13 +14,11 @@ import { RouterLink } from '@angular/router';
 export class Toys {
   protected toys = signal<ToyModel[]>([])
 
-  public getImage(url: string) {
-    return `https://toy.pequla.com${url}`
-  }
-
-  constructor() {
+  constructor(protected utils: Utils) {
+    this.utils.showLoading()
     ToyService.getAllToys()
       .then(rsp => this.toys.set(rsp.data))
     console.log(this.toys())
+    Swal.close()
   }
 }

@@ -1,5 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { Utils } from './utils';
 
 
 @Component({
@@ -9,5 +11,18 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Lazar');
+  constructor(protected router: Router, protected utils: Utils) { }
+
+  hasAuth() {
+    if (localStorage.getItem('active'))
+      return true
+    return false
+  }
+  logout() {
+    this.utils.showConfirm('Da li ste sigurni da zelite da se odjavite?', () => {
+      UserService.logout()
+        this.router.navigateByUrl('/')
+    })
+
+  }
 }
