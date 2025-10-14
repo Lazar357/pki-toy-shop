@@ -1,46 +1,64 @@
-@if (toy()) {
-<div class="card mb-3 mx-auto" style="max-width: 1200px;">
-    <div class="row g-0 align-items-start">
+<div class="card mb-3 mx-auto toy-details-card">
+    <div class="row g-0 h-100">
         <div class="col-md-6">
-            <img [src]="utils.getImage(toy()!.imageUrl)" class="img-fluid rounded-start" [alt]="toy()!.permalink"
-                style="width: 100%; height: 100%; object-fit: cover; min-height: 400px;">
+            <img [src]="utils.getImage(toy()!.imageUrl)" class="img-fluid rounded-start h-100" alt="toy">
         </div>
-        <div class="col-md-6">
-            <div class="card-body p-4">
+
+        <div class="col-md-6 d-flex flex-column">
+            <div class="card-body">
                 <h2 class="card-title fw-bold mb-3">{{toy()!.name}}</h2>
 
-                <table class="table table-borderless">
-                    <tbody>
-                        <tr>
-                            <th scope="row">Opis</th>
-                            <td>{{toy()!.description}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Kategorija</th>
-                            <td>{{toy()!.type.name}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Opis kategorije</th>
-                            <td>{{toy()!.type.description}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Pol</th>
-                            <td>{{toy()!.targetGroup}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Uzrast</th>
-                            <td>{{toy()!.ageGroup.name}}</td>
-                        </tr>
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Opis</th>
+                                    <td>{{toy()?.description}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Kategorija</th>
+                                    <td>{{toy()?.type?.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Opis kategorije</th>
+                                    <td>{{toy()?.type?.description}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Pol</th>
+                                    <td>{{toy()?.targetGroup}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Uzrast</th>
+                                    <td>{{toy()?.ageGroup?.name}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="rating-container">
+                <h5 class="mb-3">Ocenite proizvod</h5>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="star-rating">
+                        @for (star of [1, 2, 3, 4, 5]; track star) {
+                        <span class="star" [class.active]="isStarActive(star)" (click)="onStarClick(star)" (mouseenter)="onStarHover(star)"
+                            (mouseleave)="onStarLeave()">★</span>
+                        }
+                    </div>
+                    <span [class.text-muted]="currentRating === 0" [class.text-success]="currentRating > 0"
+                        [class.fw-semibold]="currentRating > 0">
+                        {{getRatingText()}}
+                    </span>
+                </div>
+            </div>
 
-                    </tbody>
-                </table>
-                <p class="mt-5">{{toy()!.price}} RSD</p>
-                <div class="btn-group mt-3">
-                    <button type="button" class="btn btn-success">Dodaj u korpu</button>
+            <div class="toy-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="fs-4 fw-semibold mb-0 text-success">{{toy()?.price}} RSD</p>
+                    <button type="button" class="btn btn-success btn-lg">Dodaj u korpu</button>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-}

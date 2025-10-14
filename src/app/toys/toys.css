@@ -41,3 +41,17 @@
     transform: scale(1.02);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
+.rating-display {
+    display: flex;
+    align-items: center;
+}
+
+.star-small {
+    font-size: 1.2rem;
+    color: #ddd;
+    margin-right: 0.1rem;
+}
+
+.star-small.active {
+    color: #ffc107;
+}

@@ -4,10 +4,28 @@
         <img [src]="utils.getImage(toy.imageUrl)" class="card-img-top" [alt]="toy.permalink">
         <div class="card-body">
             <h5 class="card-title">{{toy.name}}</h5>
+            <div class="rating-display mb-2">
+                @if (getToyRatingCount(toy.toyId) > 0) {
+                <div class="d-flex align-items-center gap-2">
+                    <div class="stars-container">
+                        @for (star of [1, 2, 3, 4, 5]; track star) {
+                        <span class="star-small"
+                            [class.active]="star <= getFullStars(getToyAverageRating(toy.toyId))">★</span>
+                        }
+                    </div>
+                    <span class="rating-info">
+                        <strong class="text-warning">{{getToyAverageRating(toy.toyId)}} </strong>
+                        <span class="text-muted small">({{getToyRatingCount(toy.toyId)}})</span>
+                    </span>
+                </div>
+                } @else {
+                <span class="text-muted small">Bez ocena</span>
+                }
+            </div>
             <p class="card-text">{{toy.price}} RSD</p>
             <div class="btn-group card-buttons">
                 <button type="button" class="btn btn-success">Dodaj u korpu</button>
-                <a class="btn btn-primary" [routerLink]="[`/details`, toy?.toyId]">Vise</a>
+                <a class="btn btn-primary" [routerLink]="['/details', toy?.toyId]">Vise</a>
             </div>
         </div>
     </div>

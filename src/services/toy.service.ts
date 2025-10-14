@@ -31,4 +31,5 @@ export class ToyService {
     static async getToyByPermalink(permalink: string){
         return await client.get<any>(`/toy/permalink/${permalink}`)
     }
+    
 }

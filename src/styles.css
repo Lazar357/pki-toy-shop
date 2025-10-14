@@ -5,6 +5,7 @@
   --background-color: #E3F1EE; 
   --text-color: #2E5266; 
   --button-text-color: #1B03A3; 
+  --hover-success-color: rgb(23, 151, 23);
 }
 
 body {
