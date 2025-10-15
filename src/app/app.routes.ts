@@ -7,10 +7,10 @@ import { Profile } from './profile/profile';
 import { Signup } from './signup/signup';
 
 export const routes: Routes = [
-    { path: '', title: 'Home', component: Home },
-    { path: 'details/:toyId', title: 'Details', component: Details },
-    { path: 'toys', title: 'Toys', component: Toys },
-    { path: 'login', title: 'Login', component: Login},
-    { path: 'signup', title: 'Signup', component: Signup},
-    { path: 'profile', title: 'Profile', component: Profile}
+    { path: '', title: 'Pocetna', component: Home },
+    { path: 'details/:toyId', title: 'Detalji', component: Details },
+    { path: 'toys', title: 'Katalog', component: Toys },
+    { path: 'login', title: 'Prijava', component: Login},
+    { path: 'signup', title: 'Registracija', component: Signup},
+    { path: 'profile', title: 'Profil', component: Profile}
 ];

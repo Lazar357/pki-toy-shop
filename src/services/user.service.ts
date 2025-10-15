@@ -48,7 +48,30 @@ export class UserService {
         return this.findUserByEmail(active)
     }
 
-    
+    static updateUser(newUser: UserModel) {
+        const active = this.getActiveUser()
+        const users = this.getUsers()
+        users.forEach(u => {
+            if (u.email == active.email) {
+                u.firstName = newUser.firstName
+                u.lastName = newUser.lastName
+                u.phone = newUser.phone
+                u.favoriteToyType = newUser.favoriteToyType
+            }
+        })
+        localStorage.setItem('users', JSON.stringify(users))
+    }
+
+    static updateUserPassword(newPassword: string) {
+        const active = this.getActiveUser()
+        const users = this.getUsers()
+        users.forEach(u => {
+            if (u.email == active.email) {
+                u.password = newPassword
+            }
+        })
+        localStorage.setItem('users', JSON.stringify(users))
+    }
 
     static logout() {
         localStorage.removeItem('active')
