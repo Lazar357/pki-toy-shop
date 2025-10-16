@@ -43,4 +43,10 @@ export class Utils {
     public getImage(url: string) {
         return `https://toy.pequla.com${url}`
     }
+
+    hasAuth() {
+        if (localStorage.getItem('active'))
+            return true
+        return false
+    }
 }

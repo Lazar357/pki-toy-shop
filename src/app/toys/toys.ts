@@ -6,12 +6,11 @@ import { Utils } from '../utils';
 import Swal from 'sweetalert2';
 import { ToyRatingService } from '../../services/toy.rating.service';
 import { FormsModule } from '@angular/forms';
+import { BasketModel } from '../../models/basket.model';
+import { BasketService } from '../../services/basket.service';
 
 
-interface BasketItem {
-  toy: ToyModel;
-  quantity: number;
-}
+
 
 interface FilterState {
   category: string;
@@ -29,7 +28,9 @@ interface FilterState {
 })
 export class Toys {
   protected allToys = signal<ToyModel[]>([]);
-  protected basket = signal<BasketItem[]>([]);
+  protected basket = signal<BasketModel[]>([]);
+  protected search: string = ''
+  protected previousSearch: string = '/'
 
   protected filters = signal<FilterState>({
     category: '',
@@ -68,15 +69,8 @@ export class Toys {
     });
   });
 
-  protected basketTotal = computed(() => {
-    return this.basket().reduce((sum, item) => sum + (item.toy.price * item.quantity), 0);
-  });
-
-  protected basketItemCount = computed(() => {
-    return this.basket().reduce((sum, item) => sum + item.quantity, 0);
-  });
-
-  constructor(protected utils: Utils, private toyRatingService: ToyRatingService, private router: Router) {
+  
+  constructor(protected utils: Utils, private toyRatingService: ToyRatingService, private router: Router, private basketService: BasketService) {
     this.utils.showLoading();
     ToyService.getAllToys()
       .then(rsp => {
@@ -99,65 +93,7 @@ export class Toys {
     this.categories.set(uniqueCategories);
   }
 
-  addToBasket(toy: ToyModel) {
-    const currentBasket = this.basket();
-    const existingItem = currentBasket.find(item => item.toy.toyId === toy.toyId);
 
-    if (existingItem) {
-      this.basket.set(
-        currentBasket.map(item =>
-          item.toy.toyId === toy.toyId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      this.basket.set([...currentBasket, { toy, quantity: 1 }]);
-    }
-
-    Swal.fire({
-      title: 'Dodato!',
-      text: `${toy.name} je dodato u korpu`,
-      icon: 'success',
-      timer: 1500,
-      showConfirmButton: false
-    });
-  }
-
-  removeFromBasket(toyId: number) {
-    this.basket.set(this.basket().filter(item => item.toy.toyId !== toyId));
-  }
-
-  updateQuantity(toyId: number, quantity: number) {
-    if (quantity <= 0) {
-      this.removeFromBasket(toyId);
-      return;
-    }
-
-    this.basket.set(
-      this.basket().map(item =>
-        item.toy.toyId === toyId
-          ? { ...item, quantity }
-          : item
-      )
-    );
-  }
-
-  clearBasket() {
-    Swal.fire({
-      title: 'Da li ste sigurni?',
-      text: 'Obrisaćete sve proizvode iz korpe',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Da, obriši',
-      cancelButtonText: 'Otkaži'
-    }).then(result => {
-      if (result.isConfirmed) {
-        this.basket.set([]);
-        Swal.fire('Obrisano!', 'Korpa je ispražnjena', 'success');
-      }
-    });
-  }
 
   updateFilter(key: keyof FilterState, value: any) {
     this.filters.set({ ...this.filters(), [key]: value });
@@ -189,39 +125,23 @@ export class Toys {
     return rating % 1 >= 0.5;
   }
 
-  hasAuth() {
-    if (localStorage.getItem('active'))
-      return true
-    return false
+  searchToys(){
+    const query = this.search.trim().toLowerCase()
+
+    if(!query){
+      ToyService.getAllToys()
+        .then(rsp => this.allToys.set(rsp.data))
+        .catch(err => console.log(err))
+        return
+    }
+
+    const filtered = this.allToys()
+    .filter(toy => toy.name.toLowerCase().includes(query))
+
+    this.allToys.set(filtered)
   }
 
-  pay() {
-    if (!this.hasAuth()) {
-      Swal.fire({
-        title: 'Prijavite se na nalog',
-        text: 'Da bi ste mogli da platite!',
-        icon: 'warning'
-      })
-      this.router.navigateByUrl('/login')
-    } else {
-      Swal.fire({
-        title: 'Da li ste sigurni da zelite da platite?',
-        icon: 'question',
-        showCancelButton: true,
-        showConfirmButton: true,
-        cancelButtonText: 'Otkazi',
-        confirmButtonText: 'Potvrdi'
-      }).then(result => {
-        if (result.isConfirmed) {
-          this.basket.set([])
-          Swal.fire({
-            title: 'Uspesno placeno!',
-            text: 'Uskoro cete primiti potvrdni mejl.',
-            icon: 'success'
-          })
-        }
-
-      })
-    }
+  addToBasket(toy: ToyModel){
+    this.basketService.addToBasket(toy)
   }
 }

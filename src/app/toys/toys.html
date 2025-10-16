@@ -3,13 +3,14 @@
         <div class="col-lg-2 col-md-2 sidebar-filters">
             <div class="filter-section">
                 <h5 class="filter-title">Filteri</h5>
-
                 <div class="filter-group">
+                    <label class="filter-label">Pretraga</label>
+                    <input type="text" class="form-control form-control-sm mb-2" [(ngModel)]="search" (keyup)="searchToys()" placeholder="Pretrazi igracke">
                     <label class="filter-label">Kategorija</label>
                     <select class="form-select form-select-sm" [value]="filters().category"
                         (change)="updateFilter('category', $any($event.target).value)">
                         <option value="">Sve kategorije</option>
-                        @for (category of categories(); track category.typeId) {
+                        @for (category of categories(); track $index) {
                         <option [value]="category.typeId">{{category.name}}</option>
                         }
                     </select>
@@ -31,8 +32,8 @@
                     <select class="form-select form-select-sm" [value]="filters().ageGroup"
                         (change)="updateFilter('ageGroup', $any($event.target).value)">
                         <option value="">Svi uzrasti</option>
-                        @for (age of ageGroups(); track age) {
-                        <option [value]="age">{{age}} godina</option>
+                        @for (age of ageGroups(); track $index) {
+                        <option [value]="age">{{age}}</option>
                         }
                     </select>
                 </div>
@@ -42,8 +43,8 @@
                     <select class="form-select form-select-sm" [value]="filters().targetGroup"
                         (change)="updateFilter('targetGroup', $any($event.target).value)">
                         <option value="">Svi</option>
-                        @for (target of targetGroups(); track target) {
-                        <option [value]="target">{{target}}</option>
+                        @for (target of targetGroups(); track $index) {
+                        <option [value]="target">{{target.charAt(0).toUpperCase()}}{{target.slice(1,target.length)}}</option>
                         }
                     </select>
                 </div>
@@ -54,13 +55,13 @@
             </div>
         </div>
 
-        <div class="col-lg-7 col-md-8">
+        <div class="col-lg-10 col-md-10">
             <div class="toys-header mb-3">
                 <h4>Igračke <span class="badge bg-secondary">{{toys().length}}</span></h4>
             </div>
 
             <div class="toys">
-                @for (toy of toys(); track toy.toyId) {
+                @for (toy of toys(); track $index) {
                 <div class="card my-card">
                     <img [src]="utils.getImage(toy.imageUrl)" class="card-img-top" [alt]="toy.permalink">
                     <div class="card-body">
@@ -69,7 +70,7 @@
                             @if (getToyRatingCount(toy.toyId) > 0) {
                             <div class="d-flex align-items-center gap-2">
                                 <div class="stars-container">
-                                    @for (star of [1, 2, 3, 4, 5]; track star) {
+                                    @for (star of [1, 2, 3, 4, 5]; track $index) {
                                     <span class="star-small"
                                         [class.active]="star <= getFullStars(getToyAverageRating(toy.toyId))">★</span>
                                     }
@@ -97,69 +98,6 @@
                     Nema igračaka koje odgovaraju filterima.
                 </div>
                 }
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-2 sidebar-basket">
-            <div class="basket-section sticky-top">
-                <div class="basket-header">
-                    <h5 class="basket-title">
-                        Korpa
-                        @if (basketItemCount() > 0) {
-                        <span class="badge bg-primary">{{basketItemCount()}}</span>
-                        }
-                    </h5>
-                </div>
-
-                <div class="basket-content">
-                    @if (basket().length > 0) {
-                    <div class="basket-items">
-                        @for (item of basket(); track item.toy.toyId) {
-                        <div class="basket-item">
-                            <img [src]="utils.getImage(item.toy.imageUrl)" [alt]="item.toy.name"
-                                class="basket-item-img">
-                            <div class="basket-item-details">
-                                <h6 class="basket-item-name">{{item.toy.name}}</h6>
-                                <p class="basket-item-price">{{item.toy.price}} RSD</p>
-                                <div class="quantity-controls">
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                        (click)="updateQuantity(item.toy.toyId, item.quantity - 1)">
-                                        -
-                                    </button>
-                                    <span class="quantity">{{item.quantity}}</span>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                        (click)="updateQuantity(item.toy.toyId, item.quantity + 1)">
-                                        +
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger ms-2"
-                                        (click)="removeFromBasket(item.toy.toyId)">
-                                        ×
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        }
-                    </div>
-
-                    <div class="basket-footer">
-                        <div class="basket-total">
-                            <strong>Ukupno:</strong>
-                            <strong class="total-price">{{basketTotal()}} RSD</strong>
-                        </div>
-                        <button class="btn btn-primary w-100 mb-2" (click)="pay()">
-                            Plati
-                        </button>
-                        <button class="btn btn-outline-danger w-100" (click)="clearBasket()">
-                            Isprazni korpu
-                        </button>
-                    </div>
-                    } @else {
-                    <div class="empty-basket">
-                        <i class="bi bi-cart-x" style="font-size: 3rem; color: #ccc;"></i>
-                        <p class="text-muted mt-2">Korpa je prazna</p>
-                    </div>
-                    }
-                </div>
             </div>
         </div>
     </div>

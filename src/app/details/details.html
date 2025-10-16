@@ -37,26 +37,30 @@
                     </div>
                 </div>
             </div>
-            <div class="rating-container">
-                <h5 class="mb-3">Ocenite proizvod</h5>
-                <div class="d-flex align-items-center gap-3">
-                    <div class="star-rating">
-                        @for (star of [1, 2, 3, 4, 5]; track star) {
-                        <span class="star" [class.active]="isStarActive(star)" (click)="onStarClick(star)" (mouseenter)="onStarHover(star)"
-                            (mouseleave)="onStarLeave()">★</span>
-                        }
+            @if (utils.hasAuth()) {
+                <div class="rating-container">
+                    <h5 class="mb-3">Ocenite proizvod</h5>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="star-rating">
+                            @for (star of [1, 2, 3, 4, 5]; track star) {
+                            <span class="star" [class.active]="isStarActive(star)" (click)="onStarClick(star)"
+                                (mouseenter)="onStarHover(star)" (mouseleave)="onStarLeave()">★</span>
+                            }
+                        </div>
+                        <span [class.text-muted]="currentRating === 0" [class.text-success]="currentRating > 0"
+                            [class.fw-semibold]="currentRating > 0">
+                            {{getRatingText()}}
+                        </span>
                     </div>
-                    <span [class.text-muted]="currentRating === 0" [class.text-success]="currentRating > 0"
-                        [class.fw-semibold]="currentRating > 0">
-                        {{getRatingText()}}
-                    </span>
                 </div>
-            </div>
+            }@else {
+                <p class="mx-3"><strong>Morate biti prijavljeni da bi ste ocenili proizvod</strong></p>
+            }
 
             <div class="toy-footer">
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="fs-4 fw-semibold mb-0 text-success">{{toy()?.price}} RSD</p>
-                    <button type="button" class="btn btn-success btn-lg">Dodaj u korpu</button>
+                    <button type="button" class="btn btn-success btn-lg" (click)="addToBasket(toy()!)">Dodaj u korpu</button>
                 </div>
             </div>
         </div>

@@ -22,7 +22,12 @@
        
       </ul>
       <ul class="navbar-nav ms-auto">
-        @if (hasAuth()) {
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/basket">
+              Korpa
+            </a>
+        </li>
+        @if (utils.hasAuth()) {
         <li class="nav-item">
           <a class="nav-link" routerLink="/profile">
             <i class="fa-solid fa-user"></i> Profil

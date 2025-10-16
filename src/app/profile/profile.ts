@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Utils } from '../utils';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToyModel } from '../../models/toy.model';
@@ -10,7 +10,7 @@ import { ToyService } from '../../services/toy.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })

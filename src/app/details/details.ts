@@ -5,6 +5,7 @@ import { ToyService } from '../../services/toy.service';
 import { Utils } from '../utils';
 import Swal from 'sweetalert2';
 import { ToyRatingService } from '../../services/toy.rating.service';
+import { BasketService } from '../../services/basket.service';
 
 @Component({
   selector: 'app-details',
@@ -21,7 +22,8 @@ export class Details implements OnInit {
   constructor(
     private route: ActivatedRoute,
     protected utils: Utils,
-    private toyRatingService: ToyRatingService
+    private toyRatingService: ToyRatingService,
+    private basketService: BasketService
   ) {
     this.utils.showLoading()
     this.route.params.subscribe((params: any) => {
@@ -72,7 +74,7 @@ export class Details implements OnInit {
     this.hoverRating = rating;
   }
 
-  onStarLeave(): void{
+  onStarLeave(): void {
     this.hoverRating = 0
   }
 
@@ -100,5 +102,9 @@ export class Details implements OnInit {
 
   getRatingCount(): number {
     return this.toy() ? this.toyRatingService.getRatingCount(this.toy()!.toyId) : 0;
+  }
+
+  addToBasket(toy: ToyModel){
+    this.basketService.addToBasket(toy)
   }
 }

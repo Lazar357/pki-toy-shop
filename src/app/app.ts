@@ -13,11 +13,6 @@ import { Utils } from './utils';
 export class App {
   constructor(protected router: Router, protected utils: Utils) { }
 
-  hasAuth() {
-    if (localStorage.getItem('active'))
-      return true
-    return false
-  }
   logout() {
     this.utils.showConfirm('Da li ste sigurni da zelite da se odjavite?', () => {
       UserService.logout()
