@@ -24,9 +24,8 @@ export class Profile {
   protected toys = signal<ToyModel[]>([])
   protected uniqueTypes = computed(() => [...new Set(this.toys().map(toy => toy.type.name))])
   protected reservations
-  protected currentRatings = signal<{[reservationId: number]: number }>({});
-  protected hoverRatings = signal<{[reservationId: number]: number }>({});
-
+  protected currentRatings = signal<{ [key: string]: number }>({});
+  protected hoverRatings = signal<{ [key: string]: number }>({});
   constructor(private formBuilder: FormBuilder, private router: Router, public utils: Utils, private reservationService: ReservationService, private toyRating: ToyRatingService) {
     this.reservations = this.reservationService.reservations;
     ToyService.getAllToys()
@@ -105,7 +104,8 @@ export class Profile {
   }
 
   rateToy(reservationId: number, toyId: number, rating: number) {
-    const updatedRatings = { ...this.currentRatings(), [reservationId]: rating };
+    const key = `${reservationId}-${toyId}`;
+    const updatedRatings = { ...this.currentRatings(), [key]: rating };
     this.currentRatings.set(updatedRatings);
 
     this.toyRating.addRating(toyId, rating);
@@ -128,34 +128,36 @@ export class Profile {
     });
   }
 
-  hoverReservation(reservationId: number, rating: number) {
-    const updatedHover = { ...this.hoverRatings(), [reservationId]: rating };
+  hoverReservation(reservationId: number, toyId: number, rating: number) {
+    const key = `${reservationId}-${toyId}`;
+    const updatedHover = { ...this.hoverRatings(), [key]: rating };
     this.hoverRatings.set(updatedHover);
   }
 
-  leaveHover(reservationId: number) {
-    const updatedHover = { ...this.hoverRatings() };
-    updatedHover[reservationId] = 0;
+  leaveHover(reservationId: number, toyId: number) {
+    const key = `${reservationId}-${toyId}`;
+    const updatedHover = { ...this.hoverRatings(), [key]: 0 };
     this.hoverRatings.set(updatedHover);
   }
 
-  isStarActive(reservationId: number, star: number): boolean {
-    const hover = this.hoverRatings()[reservationId] || 0;
+  isStarActive(reservationId: number, toyId: number, star: number): boolean {
+    const key = `${reservationId}-${toyId}`;
+    const hover = this.hoverRatings()[key] || 0;
     if (hover > 0) return star <= hover;
-    const current = this.currentRatings()[reservationId] || 0;
+    const current = this.currentRatings()[key] || 0;
     return star <= current;
   }
 
-  readableDate(isoDate: string): string{
+  readableDate(isoDate: string): string {
     const date = new Date(isoDate)
-    
+
     return date.toLocaleString('sr-RS', {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
-  })
+    })
 
-}
+  }
 }

@@ -141,10 +141,11 @@
                                                 @if (r.status === 'pristiglo') {
                                                 <div class="d-inline-block ms-2">
                                                     @for (star of [1,2,3,4,5]; track $index) {
-                                                    <span class="star" [class.active]="isStarActive(r.id, star)"
+                                                    <span class="star"
+                                                        [class.active]="isStarActive(r.id, item.toyId, star)"
                                                         (click)="rateToy(r.id, item.toyId, star)"
-                                                        (mouseenter)="hoverReservation(r.id, star)"
-                                                        (mouseleave)="leaveHover(r.id)">
+                                                        (mouseenter)="hoverReservation(r.id, item.toyId, star)"
+                                                        (mouseleave)="leaveHover(r.id, item.toyId)">
                                                         ★
                                                     </span>
                                                     }
@@ -152,6 +153,7 @@
                                                 }
                                             </li>
                                             }
+
                                         </ul>
                                     </td>
 
