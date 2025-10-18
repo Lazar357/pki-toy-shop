@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BasketService } from '../../services/basket.service';
 import { Utils } from '../utils';
+import { ReservationService } from '../../services/reservation.service';
 
 @Component({
   selector: 'app-basket',
@@ -14,7 +15,7 @@ export class Basket {
   protected total
   protected basketItemCount
 
-  constructor(private basketService: BasketService, protected utils: Utils){
+  constructor(private basketService: BasketService, protected utils: Utils, private reservationService: ReservationService) {
     this.basket = this.basketService._basket
     this.total = this.basketService.basketTotal
     this.basketItemCount = this.basketService.basketItemCount
@@ -28,11 +29,11 @@ export class Basket {
     this.basketService.clearBasket()
   }
 
-  updateQuantity(toyId: number, quantity: number){
-    this.basketService.updateQuantity(toyId,quantity)
+  updateQuantity(toyId: number, quantity: number) {
+    this.basketService.updateQuantity(toyId, quantity)
   }
 
-  pay(){
+  pay() {
     this.basketService.pay()
   }
 }

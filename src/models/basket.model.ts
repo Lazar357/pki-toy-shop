@@ -1,6 +1,6 @@
 import { ToyModel } from "./toy.model";
 
-export interface BasketModel{
-    toy: ToyModel;
-    quantity: number;
+export interface BasketModel {
+    toy: ToyModel,
+    quantity: number
 }

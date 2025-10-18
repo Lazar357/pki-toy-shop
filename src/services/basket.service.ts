@@ -4,6 +4,8 @@ import { ToyModel } from "../models/toy.model";
 import { BasketModel } from "../models/basket.model";
 import { Utils } from "../app/utils";
 import { Router } from "@angular/router";
+import { ReservationService } from "./reservation.service";
+import { UserService } from "./user.service";
 
 @Injectable({ providedIn: 'root' })
 export class BasketService {
@@ -18,12 +20,12 @@ export class BasketService {
         this.basket().reduce((sum, item) => sum + item.quantity, 0)
     );
 
-    constructor(private utils: Utils, private router: Router) {
-
+    constructor(private utils: Utils, private router: Router, private reservationService: ReservationService) {
         const saved = localStorage.getItem('basket');
         if (saved) {
             this.basket.set(JSON.parse(saved));
         }
+
         effect(() => {
             localStorage.setItem('basket', JSON.stringify(this.basket()));
         });
@@ -55,13 +57,13 @@ export class BasketService {
             confirmButtonColor: '#007bff',
             cancelButtonText: 'Nastavi sa kupovinom',
             cancelButtonColor: '#28a745'
-        }).then(result =>{
-            if(result.isConfirmed){
-                this.router.navigateByUrl('/basket')
-            }else{
-                this.router.navigateByUrl('/toys')
+        }).then(result => {
+            if (result.isConfirmed) {
+                this.router.navigateByUrl('/basket');
+            } else {
+                this.router.navigateByUrl('/toys');
             }
-        })
+        });
     }
 
     removeFromBasket(toyId: number) {
@@ -101,30 +103,43 @@ export class BasketService {
         if (!this.utils.hasAuth()) {
             Swal.fire({
                 title: 'Prijavite se na nalog',
-                text: 'Da bi ste mogli da rezervisete igracku!',
+                text: 'Da biste mogli da rezervišete igračku!',
                 icon: 'warning'
             });
             this.router.navigateByUrl('/login');
             return;
         }
 
+        if (this.basket().length === 0) {
+            Swal.fire('Korpa je prazna!', '', 'warning');
+            return;
+        }
+
         Swal.fire({
-            title: 'Da li ste sigurni da želite da rezervisete?',
+            title: 'Da li ste sigurni da želite da rezervišete?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Potvrdi',
-            cancelButtonText: 'Otkaži'
+            cancelButtonText: 'Otkaži',
+            confirmButtonColor: '#007bff',
+            cancelButtonColor: '#28a745'
         }).then(result => {
             if (result.isConfirmed) {
+                const user = UserService.getActiveUser();
+                const basketItems = [...this.basket()];
+
+                this.reservationService.addReservation(basketItems, user.email);
+
                 this.basket.set([]);
+
                 Swal.fire({
                     title: 'Uspešno rezervisano!',
-                    text: 'Uskoro ćete primiti potvrdni mejl.',
-                    icon: 'success'
-                });
+                    text: 'Vaše rezervacije su sačuvane. Pogledajte ih na profilu.',
+                    icon: 'success',
+                    showConfirmButton: true,
+                    confirmButtonText: 'OK'
+                }).then(() => this.router.navigateByUrl('/profile'));
             }
         });
     }
-
-    
 }

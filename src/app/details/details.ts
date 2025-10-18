@@ -46,65 +46,20 @@ export class Details implements OnInit {
 
   }
 
-
-  onStarClick(rating: number): void {
-    this.currentRating = rating;
-    if (this.toy()) {
-      this.toyRatingService.addRating(this.toy()!.toyId, rating);
-      Swal.fire({
-        icon: 'success',
-        title: 'Hvala na oceni!',
-        text: (() => {
-          switch (rating) {
-            case 1: return "Hvala Vam na jednoj zvezdi! Nastojimo da budemo bolji.";
-            case 2: return "Hvala Vam na dve zvezde! Radimo na poboljsanjima.";
-            case 3: return "Hvala Vam na tri zvezde! Cenimo Vasu povratnu informaciju.";
-            case 4: return "Hvala Vam na cetiri zvezde! Drago nam je što Vam se dopada.";
-            case 5: return "Hvala Vam na pet zvezdi! Odusevljeni smo što ste zadovoljni!";
-            default: return `Hvala Vam na iskrenoj oceni`;
-          }
-        })(),
-        timer: 2000,
-        showConfirmButton: false
-      });
-    }
-  }
-
-  onStarHover(rating: number): void {
-    this.hoverRating = rating;
-  }
-
-  onStarLeave(): void {
-    this.hoverRating = 0
-  }
-
-  getRatingText(): string {
-    const texts: { [key: number]: string } = {
-      1: 'Loše (1/5)',
-      2: 'Može bolje (2/5)',
-      3: 'Dobro (3/5)',
-      4: 'Vrlo dobro (4/5)',
-      5: 'Odlično (5/5)'
-    };
-    return texts[this.currentRating] || 'Izaberite ocenu';
-  }
-
-  isStarActive(starRating: number): boolean {
-    if (this.hoverRating > 0) {
-      return starRating <= this.hoverRating;
-    }
-    return starRating <= this.currentRating;
-  }
-
   getAverageRating(): number {
     return this.toy() ? this.toyRatingService.getAverageRating(this.toy()!.toyId) : 0;
   }
 
-  getRatingCount(): number {
-    return this.toy() ? this.toyRatingService.getRatingCount(this.toy()!.toyId) : 0;
+  getAverageRatingText(): string {
+    const avg = this.getAverageRating();
+    if (avg === 0) return "Još uvek nema ocena. Ocenite Vi i pomozite ostalima!";
+    return `${avg.toFixed(1)} / 5`;
+  }
+  roundRating(rating: number): number {
+    return Math.round(rating);
   }
 
-  addToBasket(toy: ToyModel){
+  addToBasket(toy: ToyModel) {
     this.basketService.addToBasket(toy)
   }
 }

@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ToyModel } from '../../models/toy.model';
 import { ToyService } from '../../services/toy.service';
+import { Utils } from '../utils';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class Signup {
   protected toys = signal<ToyModel[]>([])
   protected uniqueTypes = computed(() => [...new Set(this.toys().map(toy => toy.type.name))])
 
-  constructor(private formBuilder: FormBuilder, protected router: Router) {
+  constructor(private formBuilder: FormBuilder, protected router: Router, private utils: Utils) {
     ToyService.getAllToys()
       .then(rsp => this.toys.set(rsp.data))
 
@@ -36,12 +37,12 @@ export class Signup {
 
   onSubmit() {
     if (!this.form.valid) {
-      alert('Forma nije dobro popunjena!')
+      this.utils.showAlert('Forma nije dobro popunjena!')
       return
     }
 
     if (this.form.value.password !== this.form.value.repeatPassword) {
-      alert(`Lozinke nisu iste!`)
+      this.utils.showAlert(`Lozinke nisu iste!`)
       return
     }
 
@@ -52,7 +53,7 @@ export class Signup {
       this.router.navigateByUrl('/login')
     } catch (e) {
       console.error(e)
-      alert('Fale podaci!')
+      this.utils.showAlert('Fale podaci!')
     }
   }
 

@@ -26,41 +26,50 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Pol</th>
-                                    <td>{{toy()?.targetGroup}}</td>
+                                    <td>
+                                        @if (toy()!.targetGroup === 'svi') {
+                                            Unisex
+                                        }@else if (toy()!.targetGroup === 'dečak') {
+                                            Dečaci
+                                        }@else {
+                                            Devojčice
+                                        }
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Uzrast</th>
                                     <td>{{toy()?.ageGroup?.name}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Datum proizvodnje</th>
+                                    <td>{{toy()!.productionDate}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            @if (utils.hasAuth()) {
-                <div class="rating-container">
-                    <h5 class="mb-3">Ocenite proizvod</h5>
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="star-rating">
-                            @for (star of [1, 2, 3, 4, 5]; track star) {
-                            <span class="star" [class.active]="isStarActive(star)" (click)="onStarClick(star)"
-                                (mouseenter)="onStarHover(star)" (mouseleave)="onStarLeave()">★</span>
-                            }
-                        </div>
-                        <span [class.text-muted]="currentRating === 0" [class.text-success]="currentRating > 0"
-                            [class.fw-semibold]="currentRating > 0">
-                            {{getRatingText()}}
-                        </span>
-                    </div>
-                </div>
-            }@else {
-                <p class="mx-3"><strong>Morate biti prijavljeni da bi ste ocenili proizvod</strong></p>
-            }
+            @if (getAverageRating() > 0) {
+            <h5 class="mx-3">Ocena</h5>
+            <div class="star-rating rating-container">
 
+                @for (star of [1,2,3,4,5]; track star) {
+                <span [class.text-warning]="star <= roundRating(getAverageRating())" class="star mx-3">★</span>
+                }
+            </div>
+            }@else {
+            <div class="rating-container">
+                <h5>Ocena</h5>
+                <p class="fs-5 ">
+                    {{ getAverageRatingText() }}
+                </p>
+            </div>
+            }
             <div class="toy-footer">
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="fs-4 fw-semibold mb-0 text-success">{{toy()?.price}} RSD</p>
-                    <button type="button" class="btn btn-success btn-lg" (click)="addToBasket(toy()!)">Dodaj u korpu</button>
+                    <button type="button" class="btn btn-success btn-lg" (click)="addToBasket(toy()!)">Dodaj u
+                        korpu</button>
                 </div>
             </div>
         </div>

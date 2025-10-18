@@ -94,12 +94,77 @@
                     </div>
                 </div>
                 <div class="card no-order mb-4">
+                    @if (reservations().length === 0) {
                     <div class="card-body text-center py-5">
                         <h1 class="card-title">Nemate narudžbine!</h1>
                         <p class="card-text">Da napravite narudžbinu posetite <a routerLink="/toys"
                                 class="text-primary">stranicu sa igračkama</a>
                         </p>
                     </div>
+                    }@else {
+                    <div class="card-body text-center">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th>Igračke</th>
+                                    <th>Status</th>
+                                    <th>Datum rezervacije</th>
+                                    <th>Ukupna cena</th>
+                                    <th>Opcije</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (r of reservations(); track $index) {
+                                <tr>
+                                    <td>{{ r.id }}</td>
+                                    <td>
+                                        <ul>
+                                            @for (item of r.toys; track $index) {
+                                            <li>{{ item.name }} (x{{ item.quantity }})</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                    <td>{{ r.status }}</td>
+                                    <td>{{ readableDate(r.createdAt)}}</td>
+                                    <td>{{ r.totalPrice}} RSD</td>
+                                    <td>
+                                        @if (r.status === 'rezervisano') {
+                                        <button class="btn btn-sm btn-primary" (click)="arrived(r.id)">Stiglo</button>
+                                        <button class="btn btn-sm btn-danger" (click)="cancel(r.id)">Otkazi</button>
+                                        }@else if (r.status === 'pristiglo') {
+                                    <td>
+                                        <ul>
+                                            @for (item of r.toys; track $index) {
+                                            <li>
+                                                {{ item.name }}
+                                                @if (r.status === 'pristiglo') {
+                                                <div class="d-inline-block ms-2">
+                                                    @for (star of [1,2,3,4,5]; track $index) {
+                                                    <span class="star" [class.active]="isStarActive(r.id, star)"
+                                                        (click)="rateToy(r.id, item.toyId, star)"
+                                                        (mouseenter)="hoverReservation(r.id, star)"
+                                                        (mouseleave)="leaveHover(r.id)">
+                                                        ★
+                                                    </span>
+                                                    }
+                                                </div>
+                                                }
+                                            </li>
+                                            }
+                                        </ul>
+                                    </td>
+
+                                    }@else {
+                                    N/A
+                                    }
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    }
                 </div>
             </div>
         </div>

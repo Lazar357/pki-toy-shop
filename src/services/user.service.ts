@@ -7,11 +7,11 @@ export class UserService {
         if (!localStorage.getItem('users'))
             localStorage.setItem('users', JSON.stringify([
                 {
-                    firstName: 'Lazar',
-                    lastName: 'Danic',
-                    email: 'lazard@gmail.com',
-                    phone: '+38166262626    ',
-                    password: 'lazar123',
+                    firstName: 'User',
+                    lastName: 'Example',
+                    email: 'user@example.com',
+                    phone: '+38166232323',
+                    password: 'user123',
                     favoriteToyType: 'Slagalica'
                 }
             ]))

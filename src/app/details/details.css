@@ -73,27 +73,16 @@ body {
         font-size: 1.5rem;
     }
 }
+
 .rating-container {
-    margin-top: 1.5rem;
     padding: 1rem;
     background-color: #f8f9fa;
     border-radius: 0.5rem;
-}
-
-.star-rating {
-    display: inline-flex;
-    gap: 0.25rem;
-    cursor: pointer;
 }
 
 .star {
     font-size: 2rem;
     color: #ddd;
     transition: color 0.2s ease;
-    cursor: pointer;
-}
-
-.star:hover,
-.star.active {
-    color: #ffc107;
+    cursor: default;
 }
