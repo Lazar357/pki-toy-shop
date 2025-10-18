@@ -41,7 +41,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="toy" class="form-label">Omiljena kategorija igračke</label>
+                                    <label for="toy" class="form-label">Omiljena kategorija igracke</label>
                                     <select class="form-select" id="toy" formControlName="favoriteToy">
                                         <option value="">{{this.currentUser()?.favoriteToyType}}</option>
                                         @for (toy of uniqueTypes(); track $index) {
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">
-                                        Sačuvaj izmene
+                                        Sacuvaj izmene
                                     </button>
                                 </div>
                             </form>
@@ -86,7 +86,7 @@
 
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.valid">
-                                        Sačuvaj izmene
+                                        Sacuvaj izmene
                                     </button>
                                 </div>
                             </form>
@@ -96,9 +96,9 @@
                 <div class="card no-order mb-4">
                     @if (reservations().length === 0) {
                     <div class="card-body text-center py-5">
-                        <h1 class="card-title">Nemate narudžbine!</h1>
-                        <p class="card-text">Da napravite narudžbinu posetite <a routerLink="/toys"
-                                class="text-primary">stranicu sa igračkama</a>
+                        <h1 class="card-title">Nemate narudzbine!</h1>
+                        <p class="card-text">Da napravite narudzbinu posetite <a routerLink="/toys"
+                                class="text-primary">stranicu sa igrackama</a>
                         </p>
                     </div>
                     }@else {
@@ -106,8 +106,8 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>#ID</th>
-                                    <th>Igračke</th>
+                                    <th>Broj rezervacije</th>
+                                    <th>Igracke</th>
                                     <th>Status</th>
                                     <th>Datum rezervacije</th>
                                     <th>Ukupna cena</th>
