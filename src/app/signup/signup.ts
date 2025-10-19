@@ -1,27 +1,28 @@
-import { Component, computed, signal, Signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { ToyModel } from '../../models/toy.model';
-import { ToyService } from '../../services/toy.service';
-import { Utils } from '../utils';
-
+import { Component, computed, signal, Signal } from '@angular/core'
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Router, RouterLink } from '@angular/router'
+import { UserService } from '../../services/user.service'
+import { ToyModel } from '../../models/toy.model'
+import { ToyService } from '../../services/toy.service'
+import { Utils } from '../utils'
 
 @Component({
   selector: 'app-signup',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './signup.html',
-  styleUrl: './signup.css'
+  styleUrl: './signup.css',
 })
 export class Signup {
   protected form: FormGroup
   protected toys = signal<ToyModel[]>([])
-  protected uniqueTypes = computed(() => [...new Set(this.toys().map(toy => toy.type.name))])
+  protected uniqueTypes = computed(() => [...new Set(this.toys().map((toy) => toy.type.name))])
 
-  constructor(private formBuilder: FormBuilder, protected router: Router, private utils: Utils) {
-    ToyService.getAllToys()
-      .then(rsp => this.toys.set(rsp.data))
-
+  constructor(
+    private formBuilder: FormBuilder,
+    protected router: Router,
+    private utils: Utils,
+  ) {
+    ToyService.getAllToys().then((rsp) => this.toys.set(rsp.data))
 
     this.form = this.formBuilder.group({
       firstName: ['', Validators.required],
@@ -30,8 +31,7 @@ export class Signup {
       phone: ['', Validators.required],
       password: ['', Validators.required],
       repeatPassword: ['', Validators.required],
-      favoriteToyType: ['', Validators.required]
-
+      favoriteToyType: ['', Validators.required],
     })
   }
 
@@ -56,5 +56,4 @@ export class Signup {
       this.utils.showAlert('Fale podaci!')
     }
   }
-
 }

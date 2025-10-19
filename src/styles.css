@@ -1,10 +1,10 @@
 :root {
-  --primary-color: #80B9AD;    
-  --secondary-color: #BBDED6;  
-  --accent-color: #C5E1D9;     
-  --background-color: #E3F1EE; 
-  --text-color: #2E5266; 
-  --button-text-color: #1B03A3; 
+  --primary-color: #80b9ad;
+  --secondary-color: #bbded6;
+  --accent-color: #c5e1d9;
+  --background-color: #e3f1ee;
+  --text-color: #2e5266;
+  --button-text-color: #1b03a3;
   --hover-success-color: rgb(23, 151, 23);
 }
 
@@ -27,5 +27,3 @@ body {
 .navbar .nav-link:hover {
   color: var(--secondary-color) !important;
 }
-
-

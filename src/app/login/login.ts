@@ -1,29 +1,32 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { Utils } from '../utils';
-
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Router, RouterLink } from '@angular/router'
+import { UserService } from '../../services/user.service'
+import { Utils } from '../utils'
 
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
   protected form: FormGroup
 
-  constructor(private formBuilder: FormBuilder, protected router: Router, protected utils: Utils) {
+  constructor(
+    private formBuilder: FormBuilder,
+    protected router: Router,
+    protected utils: Utils,
+  ) {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     })
   }
 
   onSubmit() {
     if (!this.form.valid) {
-      this.utils.showAlert("Netacan email ili lozinka")
+      this.utils.showAlert('Netacan email ili lozinka')
       return
     }
     try {
@@ -33,7 +36,7 @@ export class Login {
       this.router.navigateByUrl(url)
     } catch (e) {
       console.log(e)
-      this.utils.showAlert("Netacan email ili lozinka")
+      this.utils.showAlert('Netacan email ili lozinka')
     }
   }
 }
