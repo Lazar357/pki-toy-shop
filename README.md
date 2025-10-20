@@ -3,5 +3,5 @@
 Tehnologije koriscene za izradu projekta:
     - Angular
     - Bootstrap
-    - Fontsawesome
     - Axios
+    - SweetAlert2
